@@ -5,6 +5,3 @@ CFILES = src/main.c
 
 emulator: $(CFILES)# $(HFILES)
 	$(CC) $(CFILES) -o emulator $(CFLAGS)
-
-tmp: src/tmp.c
-	gcc src/tmp.c -o tmp $(CFLAGS)
