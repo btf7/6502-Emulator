@@ -15,6 +15,8 @@ Run `.\emulator inputfilename`.
 You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
 
+If you move the window or grab the title bar, the emulator will freeze until you let go - this is a Windows feature I can't easily work around
+
 ## Memory Layout
 
 There is 64KiB of memory, broken up as shown:
