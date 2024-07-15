@@ -1,8 +1,16 @@
 # 6502 Emulator
 
+## Build
+
+This project is set up to build on Windows 10 with MingW-W64 - just run the makefile.
+
+If you are building on a different architecture, you'll have to
+manually update the makefile and supply static libraries for GLEW and GLFW.
+The static libraries supplied should replace Dependencies\GLEW\libglew32.a and Dependencies\GLFW\libglfw3.a.
+
 ## Usage
 
-Run `.\Emulator inputfilename`.
+Run `.\emulator inputfilename`.
 
 You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
@@ -24,13 +32,13 @@ There is 64KiB of memory, broken up as shown:
 
 ## Video Output
 
-**NOTE** - This is not yet added
-
 The video output is a 64 x 64 display being rendered at 640 x 640.
 
 The screen is rendered in horizontal rows starting from the top-left at 0xE000.
 
 Each pixel is 1 byte, storing colour information as RRRGGGBB.
+
+Whenever any address from 0xE000 - 0xEFFF is written to or modified, the display will immediately (<= 1ms) reflect the change.
 
 ## Delay Output
 
@@ -39,19 +47,16 @@ Each pixel is 1 byte, storing colour information as RRRGGGBB.
 The emulator will run as fast as it can, unless 0xFFFB is written to.
 
 When any value above 0 is written here, the value is treated as a uint_8t and the emulator will wait that number of milliseconds, before clearing 0xFFFB back to 0.
-This is also when the emulator will poll the OS for any new keyboard input.
 
 ## Keyboard Input
 
 **NOTE** - This is not yet added
 
-When 0xFFFB is written to and a delay is added, the emulator will poll the OS for any new keyboard input.
-The most recent key pressed will then be written to 0xFFF9.
+The most recent key pressed will be written to 0xFFF9 at intervals of ~1ms.
 
 ## Console Output
 
-When 0xFFFA is written to with any value above 0, it is treated as a char and added to stdout,
-before clearing 0xFFFA back to 0.
+Whenever 0xFFFA is written to or modified, the new value is also written to stdout.
 
 ## Useful Sources
 
