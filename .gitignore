@@ -1,3 +1,4 @@
 *.exe
 *.asm
 *.6502
+!Examples/*

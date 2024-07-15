@@ -228,12 +228,12 @@ int main(int argc, char** argv) {
     }
 
     glClear(GL_COLOR_BUFFER_BIT);
-    double prevPoll = glfwGetTime();
+    double prevPollTime = glfwGetTime();
     glFinish(); // Flush the glClear() - Is this necessary?
 
     // Main loop
     while (!glfwWindowShouldClose(window)) {
-        // TODO most instructions aren't setting flags
+        int16_t tmp;
         switch (mem[PC]) {
             case 0x00: // BRK
             PC += 2;
@@ -260,7 +260,12 @@ int main(int argc, char** argv) {
             break;
 
             case 0x69: // ADC #
-            AC += mem[PC + 1] + carryFlag;
+            tmp = (int16_t)AC + (int16_t)mem[PC + 1] + carryFlag;
+            AC = tmp;
+            carryFlag = tmp > 0xff;
+            zeroFlag = AC == 0;
+            overflowFlag = tmp > 127 || tmp < -128;
+            negativeFlag = AC & 0x80;
             PC += 2;
             break;
 
@@ -291,26 +296,36 @@ int main(int argc, char** argv) {
 
             case 0xa0: // LDY #
             Y = mem[PC + 1];
+            zeroFlag = Y == 0;
+            negativeFlag = Y & 0x80;
             PC += 2;
             break;
 
             case 0xa2: // LDX #
             X = mem[PC + 1];
+            zeroFlag = X == 0;
+            negativeFlag = X & 0x80;
             PC += 2;
             break;
 
             case 0xa5: // LDA zp
             AC = mem[mem[PC + 1]];
+            zeroFlag = AC == 0;
+            negativeFlag = AC & 0x80;
             PC += 2;
             break;
 
             case 0xa6: // LDX zp
             X = mem[mem[PC + 1]];
+            zeroFlag = X == 0;
+            negativeFlag = X & 0x80;
             PC += 2;
             break;
 
             case 0xa9: // LDA #
             AC = mem[PC + 1];
+            zeroFlag = AC == 0;
+            negativeFlag = AC & 0x80;
             PC += 2;
             break;
 
@@ -323,6 +338,8 @@ int main(int argc, char** argv) {
 
             case 0xc8: // INY
             Y++;
+            zeroFlag = Y == 0;
+            negativeFlag = Y & 0x80;
             PC++;
             break;
 
@@ -349,11 +366,15 @@ int main(int argc, char** argv) {
 
             case 0xe6: // INC zp
             writeByte(mem[PC + 1], mem[mem[PC + 1]] + 1);
+            zeroFlag = mem[mem[PC + 1]] == 0;
+            negativeFlag = mem[mem[PC + 1]] & 0x80;
             PC += 2;
             break;
 
             case 0xe8: // INX
             X++;
+            zeroFlag = X == 0;
+            negativeFlag = X & 0x80;
             PC++;
             break;
 
@@ -363,10 +384,10 @@ int main(int argc, char** argv) {
             exit(1);
         }
 
-        const double newTime = glfwGetTime();
-        if (newTime - prevPoll > 0.001) {
+        const double nowTime = glfwGetTime();
+        if (nowTime - prevPollTime > 0.001) {
             glfwPollEvents();
-            prevPoll = newTime;
+            prevPollTime = nowTime;
             if (drawQueued) {
                 glFinish();
                 drawQueued = false;
