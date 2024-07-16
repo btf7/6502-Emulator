@@ -48,7 +48,7 @@ Whenever any address from 0xE000 - 0xEFFF is written to or modified, the display
 
 The emulator will run as fast as it can, unless 0xFFFB is written to.
 
-When any value above 0 is written here, the value is treated as a uint_8t and the emulator will wait that number of milliseconds, before clearing 0xFFFB back to 0.
+Whenever 0xFFFB is written to or modified, the new value is read as a uint8_t and the emulator will sleep for that number of milliseconds.
 
 ## Keyboard Input
 
@@ -65,5 +65,3 @@ Whenever 0xFFFA is written to or modified, the new value is also written to stdo
 https://www.masswerk.at/6502/6502_instruction_set.html
 
 https://www.nesdev.org/obelisk-6502-guide/reference.html
-
-https://www.nesdev.org/wiki/Status_flags
