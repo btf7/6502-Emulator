@@ -2,3 +2,5 @@
 *.asm
 *.6502
 !Examples/*
+build
+releasebuild
