@@ -2,7 +2,7 @@
 
 ## Build
 
-This project is set up to build on Windows 10 with MingW-W64 - just run the makefile.
+This project is set up to build on Windows 10 with MinGW-W64 - just run the makefile.
 
 If you are building on a different architecture, you'll have to
 manually update the makefile and supply static libraries for GLEW and GLFW.
