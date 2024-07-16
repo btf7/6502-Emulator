@@ -2,6 +2,10 @@
 
 ## Build
 
+Run `make` to build in debug mode.\
+Run `make release` to build in release mode\
+Run `make clean` to delete build directories and executable
+
 This project is set up to build on Windows 10 with MinGW-W64 - just run the makefile.
 
 If you are building on a different architecture, you'll have to
