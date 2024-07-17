@@ -9,8 +9,8 @@ Run `make clean` to delete build directories and executable
 This project is set up to build on Windows 10 with MinGW-W64 - just run the makefile.
 
 If you are building on a different architecture, you'll have to
-manually update the makefile and supply static libraries for GLEW and GLFW.
-The static libraries supplied should replace Dependencies\GLEW\libglew32.a and Dependencies\GLFW\libglfw3.a.
+manually update the makefile with new libraries.
+You should also then delete libglfw3.a and libglew32.a from the dependencies folder.
 
 ## Usage
 
