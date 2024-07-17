@@ -74,6 +74,13 @@ void runInstruction(void) {
         PC += 2;
         break;
 
+        case 0x49: // EOR #
+        AC ^= mem[PC + 1];
+        zeroFlag = AC == 0;
+        negativeFlag = AC & 0x80;
+        PC += 2;
+        break;
+
         case 0x4c: // JMP abs
         PC = readWord(PC + 1);
         break;
