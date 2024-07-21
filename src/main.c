@@ -6,6 +6,19 @@
 #include "display.h"
 #include "instructions.h"
 
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    // Compiler warns about unused parameters
+    // Cast to void to ignore them
+    (void)window;
+    (void)scancode;
+    (void)mods;
+    
+    if (action == GLFW_PRESS) {
+        mem[0xfff8] = key & 0xff;
+        mem[0xfff9] = (key >> 8) & 0xff;
+    }
+}
+
 int main(int argc, char** argv) {
     if (argc != 2) {
         printf("Expected 1 input parameter, got %d\n", argc - 1);
@@ -17,6 +30,7 @@ int main(int argc, char** argv) {
     PC = readWord(0xfffc);
 
     GLFWwindow* window = initDisplay();
+    glfwSetKeyCallback(window, keyCallback);
 
     glClear(GL_COLOR_BUFFER_BIT);
     double prevPollTime = glfwGetTime();
