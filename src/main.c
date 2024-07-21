@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include "emulate.h"
 #include "display.h"
-#include "helper.h"
+#include "instructions.h"
 
 int main(int argc, char** argv) {
     if (argc != 2) {

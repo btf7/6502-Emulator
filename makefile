@@ -21,7 +21,7 @@ clean:
 build:
 	mkdir build
 
-emulatordebug: build/main.o build/emulate.o build/display.o build/helper.o
+emulatordebug: build/main.o build/emulate.o build/display.o build/instructions.o
 	$(CC) $^ -o emulator $(DEBUGFLAGS) $(LINKDIRS) $(LIBS)
 
 build/%.o: src/%.c
@@ -32,7 +32,7 @@ build/%.o: src/%.c
 releasebuild:
 	mkdir releasebuild
 
-emulatorrelease: releasebuild/main.o releasebuild/emulate.o releasebuild/display.o releasebuild/helper.o
+emulatorrelease: releasebuild/main.o releasebuild/emulate.o releasebuild/display.o releasebuild/instructions.o
 	$(CC) $^ -o emulator $(RELEASEFLAGS) $(LINKDIRS) $(LIBS)
 
 releasebuild/%.o: src/%.c
