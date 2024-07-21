@@ -53,6 +53,12 @@ static void pullStatus(void) {
 static void writeByte(const uint16_t pointer, const uint8_t byte) {
     if (pointer == 0xfffa) {
         putc(byte, stdout);
+    } else if (pointer == 0xfffb) {
+        const double endTime = glfwGetTime() + ((double)byte) / 1000.0;
+        // Flush drawings since there's a delay anyway
+        glFinish();
+        drawQueued = false;
+        while (!glfwWindowShouldClose(window) && glfwGetTime() < endTime) {}
     } else if (pointer >= 0xe000 && pointer <= 0xefff) {
         glUniform4f(colourUniform, (float)((byte & 0xe0) >> 5) / 7.0f, (float)((byte & 0x1c) >> 2) / 7.0f, (float)(byte & 0x03) / 3.0f, 1.0f);
         glUniform2f(positionUniform, (float)((pointer - 0xe000) & 0x3f), (float)((pointer - 0xe000) >> 6));

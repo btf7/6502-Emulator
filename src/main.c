@@ -6,10 +6,10 @@
 #include "display.h"
 #include "instructions.h"
 
-static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+static void keyCallback(GLFWwindow* callbackWindow, int key, int scancode, int action, int mods) {
     // Compiler warns about unused parameters
     // Cast to void to ignore them
-    (void)window;
+    (void)callbackWindow;
     (void)scancode;
     (void)mods;
     
@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     readFile(argv[1]);
     PC = readWord(0xfffc);
 
-    GLFWwindow* window = initDisplay();
+    initDisplay();
     glfwSetKeyCallback(window, keyCallback);
 
     glClear(GL_COLOR_BUFFER_BIT);

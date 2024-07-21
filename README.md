@@ -19,6 +19,8 @@ Run `.\emulator inputfilename`.
 You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
 
+This emulator supports all official 6502 instructions. If any opcode other than the official ones is read, the emulator will crash.
+
 If you move the window or grab the title bar, the emulator will freeze until you let go - this is a Windows feature I can't easily work around
 
 ## Memory Layout
@@ -47,8 +49,6 @@ Each pixel is 1 byte, storing colour information as RRRGGGBB.
 Whenever any address from 0xE000 - 0xEFFF is written to or modified, the display will immediately (<= 1ms) reflect the change.
 
 ## Delay Output
-
-**NOTE** - This is not yet added
 
 The emulator will run as fast as it can, unless 0xFFFB is written to.
 

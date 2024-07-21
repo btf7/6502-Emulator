@@ -1,4 +1,5 @@
 extern int colourUniform;
 extern int positionUniform;
+extern GLFWwindow* window;
 
-GLFWwindow* initDisplay(void);
+void initDisplay(void);

@@ -22,6 +22,7 @@ colour = uColour;\n\
 
 int colourUniform;
 int positionUniform;
+GLFWwindow* window;
 
 static unsigned int compileShader(const char * const string, const unsigned int type) {
     const unsigned int id = glCreateShader(type);
@@ -72,7 +73,7 @@ static unsigned int createProgram(void) {
     return program;
 }
 
-GLFWwindow* initDisplay(void) {
+void initDisplay(void) {
     // Initialise GLFW and GLEW
 
     if (!glfwInit()){
@@ -95,7 +96,7 @@ GLFWwindow* initDisplay(void) {
     // The display updates real-time(ish), don't bother with frame timings, just draw straight to the buffer
     glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
 
-    GLFWwindow * const window = glfwCreateWindow(640, 640, "6502 Emulator", NULL, NULL);
+    window = glfwCreateWindow(640, 640, "6502 Emulator", NULL, NULL);
     if (!window) {
         printf("Failed to create window\n");
         glfwTerminate();
@@ -164,6 +165,4 @@ GLFWwindow* initDisplay(void) {
         glfwTerminate();
         exit(1);
     }
-
-    return window;
 }
