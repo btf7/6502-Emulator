@@ -270,7 +270,6 @@ void JMP(const uint16_t pointer) {
 }
 
 void JSR(const uint16_t pointer) {
-    PC += 2;
     pushStack(PC >> 8);
     pushStack(PC & 0xff);
     PC = pointer;
