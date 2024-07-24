@@ -72,11 +72,12 @@ static void writeByte(const uint16_t pointer, const uint8_t byte) {
 // Instructions
 
 void ADC(const uint16_t pointer) {
-    const int16_t tmp = ((int8_t)AC) + ((int8_t)mem[pointer]) + carryFlag;
+    const uint16_t carryCheck = AC + mem[pointer] + carryFlag;
+    const int16_t overflowCheck = ((int8_t)AC) + ((int8_t)mem[pointer]) + carryFlag;
     AC += mem[pointer] + carryFlag;
-    carryFlag = tmp > 0xff;
+    carryFlag = carryCheck > 0xff;
     setZeroFlag(AC);
-    overflowFlag = tmp > 127 || tmp < -128;
+    overflowFlag = overflowCheck > 127 || overflowCheck < -128;
     setNegativeFlag(AC);
     PC++;
 }
@@ -395,11 +396,12 @@ void RTS(void) {
 }
 
 void SBC(const uint16_t pointer) {
-    const int16_t tmp = ((int8_t)AC) - ((int8_t)mem[pointer]) - 1 + carryFlag;
-    AC -= mem[pointer] - 1 + carryFlag;
-    carryFlag = tmp <= 0xff;
+    const uint16_t carryCheck = AC - mem[pointer] - 1 + carryFlag;
+    const int16_t overflowCheck = ((int8_t)AC) - ((int8_t)mem[pointer]) - 1 + carryFlag;
+    AC = AC - mem[pointer] - 1 + carryFlag;
+    carryFlag = carryCheck <= 0xff;
     setZeroFlag(AC);
-    overflowFlag = tmp > 127 || tmp < -128;
+    overflowFlag = overflowCheck > 127 || overflowCheck < -128;
     setNegativeFlag(AC);
     PC++;
 }
