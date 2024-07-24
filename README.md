@@ -19,7 +19,8 @@ Run `.\emulator inputfilename`.
 You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
 
-This emulator supports all official 6502 instructions. If any opcode other than the official ones is read, the emulator will crash.
+This emulator supports all official 6502 instructions. If any opcode other than the official ones is read, the emulator will crash.\
+Decimal mode is not yet supported.
 
 If you move the window or grab the title bar, the emulator will freeze until you let go - this is a Windows feature I can't easily work around
 
