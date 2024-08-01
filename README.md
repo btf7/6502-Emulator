@@ -1,6 +1,6 @@
 # 6502 Emulator
 
-This is a basic 6502 emulator I wrote in C as a practice project. It was written from scratch with no reference to existing emulators. This project served as my introduction to both OpenGL and Assembly.
+This is a basic 6502 emulator I wrote in C as a practice project. It was written from scratch with no reference to existing emulators. This project served as my introduction to both OpenGL and assembly programming.
 
 All the examples were assembled with [my assembler](https://github.com/btf7/6502-Assembler).
 
