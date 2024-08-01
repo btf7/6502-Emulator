@@ -1,6 +1,8 @@
 # 6502 Emulator
 
-This is a basic 6502 emulator I wrote in C as a practice project. It was written from scratch with no reference to existing emulators. This project served as my introduction to both OpenGL and assembly programming.
+This is a basic 6502 emulator I wrote in C as a practice project.
+It was written from scratch with no reference to existing emulators.
+This project served as my introduction to both OpenGL and assembly programming.
 
 All the examples were assembled with [my assembler](https://github.com/btf7/6502-Assembler).
 
@@ -25,10 +27,12 @@ Run `.\emulator inputfilename`.
 You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
 
-This emulator supports all official 6502 instructions. If any opcode other than the official ones is read, the emulator will crash.\
+This emulator supports all official 6502 instructions.
+If any opcode other than an official one is read, the emulator will crash.\
 Decimal mode is not yet supported.
 
-If you move the window or grab the title bar, the emulator will freeze until you let go - this is a Windows feature I plan to work around.
+If you move the window or grab the title bar,
+the emulator will freeze until you let go - this is a Windows feature I plan to add a work-around to.
 
 ## Memory Layout
 
@@ -53,19 +57,22 @@ The screen is rendered in horizontal rows starting from the top-left at 0xE000.
 
 Each pixel is 1 byte, storing colour information as RRRGGGBB.
 
-Whenever any address from 0xE000 - 0xEFFF is written to or modified, the display will immediately reflect the change.
+Whenever any address from 0xE000 - 0xEFFF is written to or modified,
+the display will immediately reflect the change.
 
 ## Delay Output
 
 The emulator will run as fast as it can, unless 0xFFFB is written to.
 
-Whenever 0xFFFB is written to or modified, the new value is read as a uint8_t and the emulator will sleep for that number of milliseconds.
+Whenever 0xFFFB is written to or modified, the new value is read as a uint8_t
+and the emulator will sleep for that number of milliseconds.
 
 ## Keyboard Input
 
 The most recent key pressed will be written as 2 bytes to 0xFFF8 at intervals of ~1ms.
 
-0xFFF8 will receive the low byte of the key, and 0xFFF9 will receive the high byte. The high byte is generally either 0 or 1 -
+0xFFF8 will receive the low byte of the key, and 0xFFF9 will receive the high byte.
+The high byte is generally either 0 or 1 -
 0 for normal keys, 1 for special keys (SHIFT, ESC, PG UP, numpad keys etc.).
 Note that some keys have identical low bytes.
 For example, 'U' = 0x55 and CTRL = 0x155.
