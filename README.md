@@ -1,10 +1,16 @@
 # 6502 Emulator
 
+This is a basic 6502 emulator I wrote in C as a practice project. It was written from scratch with no reference to existing emulators. This project served as my introduction to both OpenGL and Assembly.
+
+All the examples were assembled with [my assembler](https://github.com/btf7/6502-Assembler).
+
+Note that this has only been tested on my Windows 10 machine compiled with MinGW-W64.
+
 ## Build
 
 Run `make` to build in debug mode.\
-Run `make release` to build in release mode\
-Run `make clean` to delete build directories and executable
+Run `make release` to build in release mode.\
+Run `make clean` to delete build directories and executable.
 
 This project is set up to build on Windows 10 with MinGW-W64 - just run the makefile.
 
@@ -22,7 +28,7 @@ this file will be loaded into processor memory before the processor is started.
 This emulator supports all official 6502 instructions. If any opcode other than the official ones is read, the emulator will crash.\
 Decimal mode is not yet supported.
 
-If you move the window or grab the title bar, the emulator will freeze until you let go - this is a Windows feature I can't easily work around
+If you move the window or grab the title bar, the emulator will freeze until you let go - this is a Windows feature I plan to work around.
 
 ## Memory Layout
 
@@ -47,7 +53,7 @@ The screen is rendered in horizontal rows starting from the top-left at 0xE000.
 
 Each pixel is 1 byte, storing colour information as RRRGGGBB.
 
-Whenever any address from 0xE000 - 0xEFFF is written to or modified, the display will immediately (<= 1ms) reflect the change.
+Whenever any address from 0xE000 - 0xEFFF is written to or modified, the display will immediately reflect the change.
 
 ## Delay Output
 
