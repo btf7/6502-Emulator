@@ -56,7 +56,19 @@ static inline uint16_t readAdrAbsY(void) {
 }
 
 static inline uint16_t readAdrInd(void) {
-    PC++; return readWord(readWord(PC++));
+    // In the original 6502 chips, indirect addressing has a bug
+    // where if the indirect vector is xxFF,
+    // it will read the high byte from xx00 instead of (xx+1)00
+    // This bug is fixed in some later chips, but we will emulate it here
+    PC++;
+    const uint16_t indirectVector = readWord(PC++);
+    if ((indirectVector & 0xff) == 0xff) {
+        const uint16_t hi = mem[indirectVector & 0xff00] << 8;
+        const uint8_t lo = mem[indirectVector];
+        return hi + lo;
+    } else {
+        return readWord(indirectVector);
+    }
 }
 
 static inline uint16_t readAdrIndX(void) {
