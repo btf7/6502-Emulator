@@ -12,7 +12,7 @@ static void keyCallback(GLFWwindow* callbackWindow, int key, int scancode, int a
     (void)callbackWindow;
     (void)scancode;
     (void)mods;
-    
+
     if (action == GLFW_PRESS) {
         mem[0xfff8] = key & 0xff;
         mem[0xfff9] = (key >> 8) & 0xff;

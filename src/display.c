@@ -59,7 +59,7 @@ static unsigned int createProgram(void) {
     const unsigned int program = glCreateProgram();
     const unsigned int vShader = compileShader(vShaderSource, GL_VERTEX_SHADER);
     const unsigned int fShader = compileShader(fShaderSource, GL_FRAGMENT_SHADER);
-    
+
     glAttachShader(program, vShader);
     glAttachShader(program, fShader);
     glLinkProgram(program);
