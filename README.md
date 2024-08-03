@@ -4,7 +4,7 @@ This is a basic 6502 emulator I wrote in C as a practice project.
 It was written from scratch with no reference to existing emulators.
 This project served as my introduction to both OpenGL and assembly programming.
 
-All the examples were assembled with [my assembler](https://github.com/btf7/6502-Assembler).
+All of the examples were assembled with [my assembler](https://github.com/btf7/6502-Assembler).
 
 Note that this has only been tested on my Windows 10 machine compiled with MinGW-W64.
 
@@ -60,13 +60,6 @@ Each pixel is 1 byte, storing colour information as RRRGGGBB.
 Whenever any address from 0xE000 - 0xEFFF is written to or modified,
 the display will immediately reflect the change.
 
-## Delay Output
-
-The emulator will run as fast as it can, unless 0xFFFB is written to.
-
-Whenever 0xFFFB is written to or modified, the new value is read as a uint8_t
-and the emulator will sleep for that number of milliseconds.
-
 ## Keyboard Input
 
 The most recent key pressed will be written as 2 bytes to 0xFFF8 at intervals of ~1ms.
@@ -81,7 +74,21 @@ For example, 'U' = 0x55 and CTRL = 0x155.
 
 Whenever 0xFFFA is written to or modified, the new value is also written to stdout.
 
-## Useful Sources
+## Delay Output
+
+The emulator will run as fast as it can, unless 0xFFFB is written to.
+
+Whenever 0xFFFB is written to or modified, the new value is read as a uint8_t
+and the emulator will sleep for that number of milliseconds.
+
+## TODO
+
+- Add decimal mode
+- Add all unofficial opcodes
+- Add workaround to Windows feature where grabbing the window freezes the thread
+- Render at native framerate (vsync) instead of at 1ms intervals
+
+## Useful 6502 Sources
 
 https://www.masswerk.at/6502/6502_instruction_set.html
 
