@@ -72,13 +72,28 @@ static void writeByte(const uint16_t pointer, const uint8_t byte) {
 // Instructions
 
 void ADC(const uint16_t pointer) {
-    const uint16_t carryCheck = AC + mem[pointer] + carryFlag;
-    const int16_t overflowCheck = ((int8_t)AC) + ((int8_t)mem[pointer]) + carryFlag;
-    AC += mem[pointer] + carryFlag;
-    carryFlag = carryCheck > 0xff;
-    setZeroFlag(AC);
-    overflowFlag = overflowCheck > 127 || overflowCheck < -128;
-    setNegativeFlag(AC);
+    const uint8_t binaryResult = AC + mem[pointer] + carryFlag;
+    if (decimalFlag) {
+        int16_t al = (AC & 0xf) + (mem[pointer] & 0xf) + carryFlag;
+        if (al >= 0xa) {al = ((al + 6) & 0xf) + 0x10;}
+        int16_t tmp = (AC & 0xf0) + (mem[pointer] & 0xf0) + al;
+        const uint8_t old = AC;
+        if (tmp >= 0xa0) {tmp += 0x60;}
+        AC = tmp & 0xff;
+        carryFlag = tmp > 0xff;
+
+        tmp = ((int8_t)(old & 0xf0)) + ((int8_t)(mem[pointer] & 0xf0)) + al;
+        setNegativeFlag(tmp);
+        overflowFlag = tmp < -128 || tmp > 127;
+    } else {
+        const uint16_t carryCheck = AC + mem[pointer] + carryFlag;
+        const int16_t overflowCheck = ((int8_t)AC) + ((int8_t)mem[pointer]) + carryFlag;
+        AC = binaryResult;
+        carryFlag = carryCheck > 0xff;
+        overflowFlag = overflowCheck > 127 || overflowCheck < -128;
+        setNegativeFlag(AC);
+    }
+    setZeroFlag(binaryResult);
     PC++;
 }
 
@@ -398,11 +413,23 @@ void RTS(void) {
 void SBC(const uint16_t pointer) {
     const uint16_t carryCheck = AC - mem[pointer] - 1 + carryFlag;
     const int16_t overflowCheck = ((int8_t)AC) - ((int8_t)mem[pointer]) - 1 + carryFlag;
-    AC = AC - mem[pointer] - 1 + carryFlag;
+    const uint8_t binaryResult = AC - mem[pointer] - 1 + carryFlag;
+
+    if (decimalFlag) {
+        int16_t al = (AC & 0xf) - (mem[pointer] & 0xf) - 1 + carryFlag;
+        if (al < 0) {al = ((al - 6) & 0xf) - 0x10;}
+        int16_t tmp = (AC & 0xf0) - (mem[pointer] & 0xf0) + al;
+        if (tmp < 0) {tmp -= 0x60;}
+        AC = tmp & 0xff;
+    } else {
+        AC = binaryResult;
+    }
+
     carryFlag = carryCheck <= 0xff;
-    setZeroFlag(AC);
+    setZeroFlag(binaryResult);
     overflowFlag = overflowCheck > 127 || overflowCheck < -128;
-    setNegativeFlag(AC);
+    setNegativeFlag(binaryResult);
+
     PC++;
 }
 
