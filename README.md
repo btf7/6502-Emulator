@@ -6,6 +6,8 @@ This project served as my introduction to both OpenGL and assembly programming.
 
 All of the examples were assembled with [my assembler](https://github.com/btf7/6502-Assembler).
 
+This has been tested against [Klaus Dormann's 6502 tests](https://github.com/Klaus2m5/6502_65C02_functional_tests).
+
 Note that this has only been tested on my Windows 10 machine compiled with MinGW-W64.
 
 ## Build
@@ -83,7 +85,6 @@ and the emulator will sleep for that number of milliseconds.
 
 ## TODO
 
-- Add decimal mode
 - Add all unofficial opcodes
 - Add workaround to Windows feature where grabbing the window freezes the thread
 - Render at native framerate (vsync) instead of at 1ms intervals
@@ -93,3 +94,5 @@ and the emulator will sleep for that number of milliseconds.
 https://www.masswerk.at/6502/6502_instruction_set.html
 
 https://www.nesdev.org/obelisk-6502-guide/reference.html
+
+http://www.6502.org/tutorials/decimal_mode.html
