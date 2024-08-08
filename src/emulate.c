@@ -450,7 +450,7 @@ void runInstruction(void) {
         break;
 
         case 0x96:
-        STX(readAdrZPX());
+        STX(readAdrZPY());
         break;
 
         case 0x98:
