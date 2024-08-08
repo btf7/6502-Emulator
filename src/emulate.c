@@ -72,7 +72,7 @@ static inline uint16_t readAdrInd(void) {
 }
 
 static inline uint16_t readAdrIndX(void) {
-    return readWord(mem[++PC] + X);
+    return readWord(readAdrZPX());
 }
 
 static inline uint16_t readAdrIndY(void) {
