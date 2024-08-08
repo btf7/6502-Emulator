@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <GLFW/glfw3.h>
+#include <pthread.h>
 #include "emulate.h"
 #include "display.h"
 #include "instructions.h"
@@ -19,6 +20,31 @@ static void keyCallback(GLFWwindow* callbackWindow, int key, int scancode, int a
     }
 }
 
+static void* emulate(void* args) {
+    (void)args;
+
+    glfwMakeContextCurrent(window);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    double prevDrawTime = glfwGetTime();
+    glFinish(); // Flush the glClear() - Is this necessary?
+
+    while (!glfwWindowShouldClose(window)) {
+        runInstruction();
+
+        const double nowTime = glfwGetTime();
+        if (nowTime - prevDrawTime > 0.001) {
+            prevDrawTime = nowTime;
+            if (drawQueued) {
+                glFinish();
+                drawQueued = false;
+            }
+        }
+    }
+
+    return NULL;
+}
+
 int main(int argc, char** argv) {
     if (argc != 2) {
         printf("Expected 1 input parameter, got %d\n", argc - 1);
@@ -32,24 +58,15 @@ int main(int argc, char** argv) {
     initDisplay();
     glfwSetKeyCallback(window, keyCallback);
 
-    glClear(GL_COLOR_BUFFER_BIT);
-    double prevPollTime = glfwGetTime();
-    glFinish(); // Flush the glClear() - Is this necessary?
+    glfwMakeContextCurrent(NULL);
+    pthread_t emulateThread;
+    pthread_create(&emulateThread, NULL, &emulate, NULL);
 
-    // Main loop
     while (!glfwWindowShouldClose(window)) {
-        runInstruction();
-
-        const double nowTime = glfwGetTime();
-        if (nowTime - prevPollTime > 0.001) {
-            glfwPollEvents();
-            prevPollTime = nowTime;
-            if (drawQueued) {
-                glFinish();
-                drawQueued = false;
-            }
-        }
+        glfwPollEvents();
     }
+
+    pthread_join(emulateThread, NULL);
 
     glfwTerminate();
     return 0;

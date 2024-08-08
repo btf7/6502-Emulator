@@ -31,10 +31,6 @@ this file will be loaded into processor memory before the processor is started.
 
 This emulator supports all official 6502 instructions.
 If any opcode other than an official one is read, the emulator will crash.\
-Decimal mode is not yet supported.
-
-If you move the window or grab the title bar,
-the emulator will freeze until you let go - this is a Windows feature I plan to add a work-around to.
 
 ## Memory Layout
 
@@ -86,7 +82,6 @@ and the emulator will sleep for that number of milliseconds.
 ## TODO
 
 - Add all unofficial opcodes
-- Add workaround to Windows feature where grabbing the window freezes the thread
 - Render at native framerate (vsync) instead of at 1ms intervals
 
 ## Useful 6502 Sources

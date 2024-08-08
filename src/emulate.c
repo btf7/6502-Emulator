@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <GLFW/glfw3.h>
+#include <pthread.h>
 #include "emulate.h"
 #include "instructions.h"
 #include "display.h"
@@ -114,12 +115,9 @@ void runInstruction(void) {
         printf("\nInfinite loop at 0x%.4x\n", PC);
         glFinish(); // Flush any drawings that haven't been drawn yet
 
-        while (!glfwWindowShouldClose(window)) {
-            glfwPollEvents();
-        }
+        while (!glfwWindowShouldClose(window)) {}
 
-        glfwTerminate();
-        exit(0);
+        pthread_exit(NULL);
     }
     prevPC = PC;
 
