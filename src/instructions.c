@@ -73,27 +73,41 @@ static void writeByte(const uint16_t pointer, const uint8_t byte) {
 
 void ADC(const uint16_t pointer) {
     const uint8_t binaryResult = AC + mem[pointer] + carryFlag;
-    if (decimalFlag) {
-        int16_t al = (AC & 0xf) + (mem[pointer] & 0xf) + carryFlag;
-        if (al >= 0xa) {al = ((al + 6) & 0xf) + 0x10;}
-        int16_t tmp = (AC & 0xf0) + (mem[pointer] & 0xf0) + al;
-        const uint8_t old = AC;
-        if (tmp >= 0xa0) {tmp += 0x60;}
-        AC = tmp & 0xff;
-        carryFlag = tmp > 0xff;
 
-        tmp = ((int8_t)(old & 0xf0)) + ((int8_t)(mem[pointer] & 0xf0)) + al;
-        setNegativeFlag(tmp);
-        overflowFlag = tmp < -128 || tmp > 127;
+    if (decimalFlag) {
+        // Implemented according to http://www.6502.org/tutorials/decimal_mode.html APPENDIX A
+
+        const uint8_t oldACValue = AC;
+
+        uint16_t resultLow = (AC & 0xf) + (mem[pointer] & 0xf) + carryFlag;
+        if (resultLow >= 0xa) {
+            resultLow = ((resultLow + 6) & 0xf) + 0x10;
+        }
+
+        int16_t result = (AC & 0xf0) + (mem[pointer] & 0xf0) + resultLow;
+        if (result >= 0xa0) {
+            result += 0x60;
+        }
+
+        AC = result & 0xff;
+
+        carryFlag = result > 0xff;
+
+        result = ((int8_t)oldACValue & 0xf0) + ((int8_t)mem[pointer] & 0xf0) + resultLow;
+        setNegativeFlag(result);
+        overflowFlag = result < -128 || result > 127;
     } else {
         const uint16_t carryCheck = AC + mem[pointer] + carryFlag;
-        const int16_t overflowCheck = ((int8_t)AC) + ((int8_t)mem[pointer]) + carryFlag;
+        const int16_t overflowCheck = (int8_t)AC + (int8_t)mem[pointer] + carryFlag;
+
         AC = binaryResult;
         carryFlag = carryCheck > 0xff;
         overflowFlag = overflowCheck > 127 || overflowCheck < -128;
         setNegativeFlag(AC);
     }
+
     setZeroFlag(binaryResult);
+
     PC++;
 }
 
@@ -413,23 +427,32 @@ void RTS(void) {
 
 void SBC(const uint16_t pointer) {
     const uint16_t carryCheck = AC - mem[pointer] - 1 + carryFlag;
-    const int16_t overflowCheck = ((int8_t)AC) - ((int8_t)mem[pointer]) - 1 + carryFlag;
+    const int16_t overflowCheck = (int8_t)AC - (int8_t)mem[pointer] - 1 + carryFlag;
+
     const uint8_t binaryResult = AC - mem[pointer] - 1 + carryFlag;
 
     if (decimalFlag) {
-        int16_t al = (AC & 0xf) - (mem[pointer] & 0xf) - 1 + carryFlag;
-        if (al < 0) {al = ((al - 6) & 0xf) - 0x10;}
-        int16_t tmp = (AC & 0xf0) - (mem[pointer] & 0xf0) + al;
-        if (tmp < 0) {tmp -= 0x60;}
-        AC = tmp & 0xff;
+        // Implemented according to http://www.6502.org/tutorials/decimal_mode.html APPENDIX A
+
+        int16_t resultLow = (AC & 0xf) - (mem[pointer] & 0xf) - 1 + carryFlag;
+        if (resultLow < 0) {
+            resultLow = ((resultLow - 6) & 0xf) - 0x10;
+        }
+
+        int16_t result = (AC & 0xf0) - (mem[pointer] & 0xf0) + resultLow;
+        if (result < 0) {
+            result -= 0x60;
+        }
+
+        AC = result & 0xff;
     } else {
         AC = binaryResult;
     }
 
-    carryFlag = carryCheck <= 0xff;
     setZeroFlag(binaryResult);
     overflowFlag = overflowCheck > 127 || overflowCheck < -128;
     setNegativeFlag(binaryResult);
+    carryFlag = carryCheck <= 0xff;
 
     PC++;
 }
