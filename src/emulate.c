@@ -5,9 +5,11 @@
 #include <GLFW/glfw3.h>
 #include "emulate.h"
 #include "instructions.h"
+#include "display.h"
 
 uint8_t mem[0x10000];
 uint16_t PC;
+static uint16_t prevPC;
 uint8_t SP = 0xff; // Grows down
 uint8_t AC = 0;
 uint8_t X = 0;
@@ -108,6 +110,19 @@ void readFile(const char * const fileName) {
 }
 
 void runInstruction(void) {
+    if (PC == prevPC){
+        printf("\nInfinite loop at 0x%.4x\n", PC);
+        glFinish(); // Flush any drawings that haven't been drawn yet
+
+        while (!glfwWindowShouldClose(window)) {
+            glfwPollEvents();
+        }
+
+        glfwTerminate();
+        exit(0);
+    }
+    prevPC = PC;
+
     switch (mem[PC]) {
         case 0x00:
         BRK();
