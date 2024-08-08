@@ -36,11 +36,11 @@ static inline uint16_t readAdrZP(void) {
 }
 
 static inline uint16_t readAdrZPX(void) {
-    return mem[++PC] + X;
+    return (mem[++PC] + X) & 0xff;
 }
 
 static inline uint16_t readAdrZPY(void) {
-    return mem[++PC] + Y;
+    return (mem[++PC] + Y) & 0xff;
 }
 
 static inline uint16_t readAdrAbs(void) {
