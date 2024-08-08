@@ -174,6 +174,7 @@ void BRK(void) {
     pushStack(PC >> 8);
     pushStack(PC & 0xff);
     pushStatus();
+    interruptFlag = true;
     PC = readWord(0xfffe);
 }
 
