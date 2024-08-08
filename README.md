@@ -60,7 +60,7 @@ the display will immediately reflect the change.
 
 ## Keyboard Input
 
-The most recent key pressed will be written as 2 bytes to 0xFFF8 at intervals of ~1ms.
+The most recent key pressed will be written as 2 bytes to 0xFFF8.
 
 0xFFF8 will receive the low byte of the key, and 0xFFF9 will receive the high byte.
 The high byte is generally either 0 or 1 -
