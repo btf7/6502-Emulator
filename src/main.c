@@ -3,6 +3,15 @@
 #include <stdbool.h>
 #include <GLFW/glfw3.h>
 #include <pthread.h>
+
+#ifdef _WIN32
+#include <Windows.h>
+#elif defined(__unix__)
+#include <unistd.h>
+#else
+#error "_WIN32 or __unix__ must be defined"
+#endif
+
 #include "emulate.h"
 #include "display.h"
 #include "instructions.h"
@@ -63,6 +72,11 @@ int main(int argc, char** argv) {
     pthread_create(&emulateThread, NULL, &emulate, NULL);
 
     while (!glfwWindowShouldClose(window)) {
+        #ifdef _WIN32
+        Sleep(10);
+        #else
+        usleep(10000);
+        #endif
         glfwPollEvents();
     }
 
