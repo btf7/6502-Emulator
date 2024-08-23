@@ -9,6 +9,7 @@ All of the examples were assembled with [my assembler](https://github.com/btf7/6
 This has been tested against [Klaus Dormann's 6502 tests](https://github.com/Klaus2m5/6502_65C02_functional_tests).
 
 Note that this has only been tested on my Windows 10 machine compiled with MinGW-W64.
+Linux / Mac support is not guaranteed.
 
 ## Build
 
@@ -30,7 +31,7 @@ You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
 
 This emulator supports all official 6502 instructions.
-If any opcode other than an official one is read, the emulator will crash.\
+If any opcode other than an official one is read, the emulator will crash.
 
 ## Memory Layout
 
@@ -83,6 +84,7 @@ and the emulator will sleep for that number of milliseconds.
 
 - Add all unofficial opcodes
 - Render at native framerate (vsync) instead of at 1ms intervals
+- Delay output currently busy waits - sleep the thread instead
 
 ## Useful 6502 Sources
 
