@@ -25,14 +25,14 @@ bool carryFlag = false;
 
 bool drawQueued = false;
 
-// Functions for getting the value address in different addressing modes
+// Functions for getting the value's address in different addressing modes
 // These should also increment PC by the number of bytes they read
 
 static inline uint16_t readAdrImmediate(void) {
     return ++PC;
 }
 
-#define readAdrRel() readAdrImmediate()
+#define readAdrRel readAdrImmediate
 
 static inline uint16_t readAdrZP(void) {
     return mem[++PC];
@@ -114,9 +114,6 @@ void runInstruction(void) {
     if (PC == prevPC){
         printf("\nInfinite loop at 0x%.4x\n", PC);
         glFinish(); // Flush any drawings that haven't been drawn yet
-
-        while (!glfwWindowShouldClose(window)) {}
-
         pthread_exit(NULL);
     }
     prevPC = PC;

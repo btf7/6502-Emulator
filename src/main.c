@@ -67,7 +67,11 @@ int main(int argc, char** argv) {
     initDisplay();
     glfwSetKeyCallback(window, keyCallback);
 
+    // The main thread does not handle rendering
     glfwMakeContextCurrent(NULL);
+
+    // Windows freezes the main thread when the window is grabbed
+    // Run the emulation on another thread to circumvent this
     pthread_t emulateThread;
     pthread_create(&emulateThread, NULL, &emulate, NULL);
 
@@ -77,7 +81,7 @@ int main(int argc, char** argv) {
         #else
         usleep(10000);
         #endif
-        glfwPollEvents();
+        glfwPollEvents(); // This must be called from the main thread
     }
 
     pthread_join(emulateThread, NULL);

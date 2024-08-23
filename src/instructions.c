@@ -32,7 +32,7 @@ static void pushStatus(void) {
     uint8_t status = 0;
     status |= (uint8_t)(negativeFlag) << 7;
     status |= (uint8_t)(overflowFlag) << 6;
-    status |= 0x30; // Bit 3 is always 1, bit 4 is 1 when pushed from BRK or PHP (always)
+    status |= 0x30; // Bit 5 is always 1, bit 4 is 1 when pushed from BRK or PHP (always)
     status |= (uint8_t)(decimalFlag) << 3;
     status |= (uint8_t)(interruptFlag) << 2;
     status |= (uint8_t)(zeroFlag) << 1;
@@ -52,7 +52,7 @@ static void pullStatus(void) {
 
 static void writeByte(const uint16_t pointer, const uint8_t byte) {
     if (pointer == 0xfffa) {
-        putc(byte, stdout);
+        putchar(byte);
     } else if (pointer == 0xfffb) {
         const double endTime = glfwGetTime() + ((double)byte) / 1000.0;
         // Flush drawings since there's a delay anyway
