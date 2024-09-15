@@ -7,7 +7,7 @@ CFLAGS = -std=c17 -MMD -MP -DGLEW_STATIC $(CCWARNINGS)
 DEBUGFLAGS = -O0 -g3 $(CFLAGS)
 RELEASEFLAGS = -O3 -g0 $(CFLAGS)
 
-# Note - If on windows, and either mkdir or rm isn't found, make sure Git\usr\bin is in PATH and restart terminal if neccessary
+# Note - If on windows, and either mkdir or rm isn't found, make sure Git\usr\bin is in PATH and restart terminal if necessary
 
 debug: build emulatordebug
 
