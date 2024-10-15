@@ -84,7 +84,7 @@ and the emulator will sleep for that number of milliseconds.
 
 - Add all unofficial opcodes
 - Render at native framerate (vsync) instead of at 1ms intervals
-- Delay output currently busy waits - sleep the thread instead
+- Instead of having delay output, measure cycle counts and run at a set speed to more accurately model the processor
 
 ## Useful 6502 Sources
 
