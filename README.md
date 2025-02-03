@@ -30,8 +30,9 @@ Run `.\emulator inputfilename`.
 You must pass a 64KiB file as input -
 this file will be loaded into processor memory before the processor is started.
 
-This emulator supports all official 6502 instructions.
-If any opcode other than an official one is read, the emulator will crash.
+This emulator supports all instruction opcodes.
+Legal opcodes are all fully tested.
+Illegal opcodes are supported, but untested. Documentation for these is lacking, so there may be mistakes in their implementations.
 
 ## Memory Layout
 
@@ -75,6 +76,8 @@ Whenever 0xFFFA is written to or modified, the new value is also written to stdo
 
 ## Delay Output
 
+**Note that this is likely to change / be removed in the future.**
+
 The emulator will run as fast as it can, unless 0xFFFB is written to.
 
 Whenever 0xFFFB is written to or modified, the new value is read as a uint8_t
@@ -82,9 +85,10 @@ and the emulator will sleep for that number of milliseconds.
 
 ## TODO
 
-- Add all unofficial opcodes
-- Render at native framerate (vsync) instead of at 1ms intervals
+- Render at native framerate (vsync) instead of at 10ms intervals
 - Instead of having delay output, measure cycle counts and run at a set speed to more accurately model the processor
+- Add debug GUI - pause button, assembly view, registers & flags viewer etc.
+- Test illegal opcodes
 
 ## Useful 6502 Sources
 

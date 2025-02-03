@@ -127,12 +127,32 @@ void runInstruction(void) {
         ORA(readAdrIndX());
         break;
 
+        case 0x02:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x03:
+        // Illegal
+        SLO(readAdrIndX());
+        break;
+
+        case 0x04:
+        // Illegal
+        NOP(2);
+        break;
+
         case 0x05:
         ORA(readAdrZP());
         break;
 
         case 0x06:
         ASL(readAdrZP());
+        break;
+
+        case 0x07:
+        // Illegal
+        SLO(readAdrZP());
         break;
 
         case 0x08:
@@ -147,12 +167,27 @@ void runInstruction(void) {
         ASLA();
         break;
 
+        case 0x0b:
+        // Illegal
+        ANC(readAdrImmediate());
+        break;
+
+        case 0x0c:
+        // Illegal
+        NOP(3);
+        break;
+
         case 0x0d:
         ORA(readAdrAbs());
         break;
 
         case 0x0e:
         ASL(readAdrAbs());
+        break;
+
+        case 0x0f:
+        // Illegal
+        SLO(readAdrAbs());
         break;
 
         case 0x10:
@@ -163,12 +198,32 @@ void runInstruction(void) {
         ORA(readAdrIndY());
         break;
 
+        case 0x12:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x13:
+        // Illegal
+        SLO(readAdrIndY());
+        break;
+
+        case 0x14:
+        // Illegal
+        NOP(2);
+        break;
+
         case 0x15:
         ORA(readAdrZPX());
         break;
 
         case 0x16:
         ASL(readAdrZPX());
+        break;
+
+        case 0x17:
+        // Illegal
+        SLO(readAdrZPX());
         break;
 
         case 0x18:
@@ -179,6 +234,21 @@ void runInstruction(void) {
         ORA(readAdrAbsY());
         break;
 
+        case 0x1a:
+        // Illegal
+        NOP(1);
+        break;
+
+        case 0x1b:
+        // Illegal
+        SLO(readAdrAbsY());
+        break;
+
+        case 0x1c:
+        // Illegal
+        NOP(3);
+        break;
+
         case 0x1d:
         ORA(readAdrAbsX());
         break;
@@ -187,12 +257,27 @@ void runInstruction(void) {
         ASL(readAdrAbsX());
         break;
 
+        case 0x1f:
+        // Illegal
+        SLO(readAdrAbsX());
+        break;
+
         case 0x20:
         JSR(readAdrAbs());
         break;
 
         case 0x21:
         AND(readAdrIndX());
+        break;
+
+        case 0x22:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x23:
+        // Illegal
+        RLA(readAdrIndX());
         break;
 
         case 0x24:
@@ -207,6 +292,11 @@ void runInstruction(void) {
         ROL(readAdrZP());
         break;
 
+        case 0x27:
+        // Illegal
+        RLA(readAdrZP());
+        break;
+
         case 0x28:
         PLP();
         break;
@@ -217,6 +307,11 @@ void runInstruction(void) {
 
         case 0x2a:
         ROLA();
+        break;
+
+        case 0x2b:
+        // Illegal
+        ANC(readAdrImmediate());
         break;
 
         case 0x2c:
@@ -231,12 +326,32 @@ void runInstruction(void) {
         ROL(readAdrAbs());
         break;
 
+        case 0x2f:
+        // Illegal
+        RLA(readAdrAbs());
+        break;
+
         case 0x30:
         BMI(readAdrRel());
         break;
 
         case 0x31:
         AND(readAdrIndY());
+        break;
+
+        case 0x32:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x33:
+        // Illegal
+        RLA(readAdrIndY());
+        break;
+
+        case 0x34:
+        // Illegal
+        NOP(2);
         break;
 
         case 0x35:
@@ -247,12 +362,32 @@ void runInstruction(void) {
         ROL(readAdrZPX());
         break;
 
+        case 0x37:
+        // Illegal
+        RLA(readAdrZPX());
+        break;
+
         case 0x38:
         SEC();
         break;
 
         case 0x39:
         AND(readAdrAbsY());
+        break;
+
+        case 0x3a:
+        // Illegal
+        NOP(1);
+        break;
+
+        case 0x3b:
+        // Illegal
+        RLA(readAdrAbsY());
+        break;
+
+        case 0x3c:
+        // Illegal
+        NOP(3);
         break;
 
         case 0x3d:
@@ -263,6 +398,11 @@ void runInstruction(void) {
         ROL(readAdrAbsX());
         break;
 
+        case 0x3f:
+        // Illegal
+        RLA(readAdrAbsX());
+        break;
+
         case 0x40:
         RTI();
         break;
@@ -271,12 +411,32 @@ void runInstruction(void) {
         EOR(readAdrIndX());
         break;
 
+        case 0x42:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x43:
+        // Illegal
+        SRE(readAdrIndX());
+        break;
+
+        case 0x44:
+        // Illegal
+        NOP(2);
+        break;
+
         case 0x45:
         EOR(readAdrZP());
         break;
 
         case 0x46:
         LSR(readAdrZP());
+        break;
+
+        case 0x47:
+        // Illegal
+        SRE(readAdrZP());
         break;
 
         case 0x48:
@@ -291,6 +451,11 @@ void runInstruction(void) {
         LSRA();
         break;
 
+        case 0x4b:
+        // Illegal
+        ALR(readAdrImmediate());
+        break;
+
         case 0x4c:
         JMP(readAdrAbs());
         break;
@@ -303,12 +468,32 @@ void runInstruction(void) {
         LSR(readAdrAbs());
         break;
 
+        case 0x4f:
+        // Illegal
+        SRE(readAdrAbs());
+        break;
+
         case 0x50:
         BVC(readAdrRel());
         break;
 
         case 0x51:
         EOR(readAdrIndY());
+        break;
+
+        case 0x52:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x53:
+        // Illegal
+        SRE(readAdrIndY());
+        break;
+
+        case 0x54:
+        // Illegal
+        NOP(2);
         break;
 
         case 0x55:
@@ -319,12 +504,32 @@ void runInstruction(void) {
         LSR(readAdrZPX());
         break;
 
+        case 0x57:
+        // Illegal
+        SRE(readAdrZPX());
+        break;
+
         case 0x58:
         CLI();
         break;
 
         case 0x59:
         EOR(readAdrAbsY());
+        break;
+
+        case 0x5a:
+        // Illegal
+        NOP(1);
+        break;
+
+        case 0x5b:
+        // Illegal
+        SRE(readAdrAbsY());
+        break;
+
+        case 0x5c:
+        // Illegal
+        NOP(3);
         break;
 
         case 0x5d:
@@ -335,6 +540,11 @@ void runInstruction(void) {
         LSR(readAdrAbsX());
         break;
 
+        case 0x5f:
+        // Illegal
+        SRE(readAdrAbsX());
+        break;
+
         case 0x60:
         RTS();
         break;
@@ -343,12 +553,32 @@ void runInstruction(void) {
         ADC(readAdrIndX());
         break;
 
+        case 0x62:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x63:
+        // Illegal
+        RRA(readAdrIndX());
+        break;
+
+        case 0x64:
+        // Illegal
+        NOP(2);
+        break;
+
         case 0x65:
         ADC(readAdrZP());
         break;
 
         case 0x66:
         ROR(readAdrZP());
+        break;
+
+        case 0x67:
+        // Illegal
+        RRA(readAdrZP());
         break;
 
         case 0x68:
@@ -363,6 +593,11 @@ void runInstruction(void) {
         RORA();
         break;
 
+        case 0x6b:
+        // Illegal
+        ARR(readAdrImmediate());
+        break;
+
         case 0x6c:
         JMP(readAdrInd());
         break;
@@ -375,12 +610,32 @@ void runInstruction(void) {
         ROR(readAdrAbs());
         break;
 
+        case 0x6f:
+        // Illegal
+        RRA(readAdrAbs());
+        break;
+
         case 0x70:
         BVS(readAdrRel());
         break;
 
         case 0x71:
         ADC(readAdrIndY());
+        break;
+
+        case 0x72:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x73:
+        // Illegal
+        RRA(readAdrIndY());
+        break;
+
+        case 0x74:
+        // Illegal
+        NOP(2);
         break;
 
         case 0x75:
@@ -391,12 +646,32 @@ void runInstruction(void) {
         ROR(readAdrZPX());
         break;
 
+        case 0x77:
+        // Illegal
+        RRA(readAdrZPX());
+        break;
+
         case 0x78:
         SEI();
         break;
 
         case 0x79:
         ADC(readAdrAbsY());
+        break;
+
+        case 0x7a:
+        // Illegal
+        NOP(1);
+        break;
+
+        case 0x7b:
+        // Illegal
+        RRA(readAdrAbsY());
+        break;
+
+        case 0x7c:
+        // Illegal
+        NOP(3);
         break;
 
         case 0x7d:
@@ -407,8 +682,28 @@ void runInstruction(void) {
         ROR(readAdrAbsX());
         break;
 
+        case 0x7f:
+        // Illegal
+        RRA(readAdrAbsX());
+        break;
+
+        case 0x80:
+        // Illegal
+        NOP(2);
+        break;
+
         case 0x81:
         STA(readAdrIndX());
+        break;
+
+        case 0x82:
+        // Illegal
+        NOP(2);
+        break;
+
+        case 0x83:
+        // Illegal
+        SAX(readAdrIndX());
         break;
 
         case 0x84:
@@ -423,12 +718,27 @@ void runInstruction(void) {
         STX(readAdrZP());
         break;
 
+        case 0x87:
+        // Illegal
+        SAX(readAdrZP());
+        break;
+
         case 0x88:
         DEY();
         break;
 
+        case 0x89:
+        // Illegal
+        NOP(2);
+        break;
+
         case 0x8a:
         TXA();
+        break;
+
+        case 0x8b:
+        // Illegal
+        ANE(readAdrImmediate());
         break;
 
         case 0x8c:
@@ -443,12 +753,27 @@ void runInstruction(void) {
         STX(readAdrAbs());
         break;
 
+        case 0x8f:
+        // Illegal
+        SAX(readAdrAbs());
+        break;
+
         case 0x90:
         BCC(readAdrRel());
         break;
 
         case 0x91:
         STA(readAdrIndY());
+        break;
+
+        case 0x92:
+        // Illegal
+        JAM();
+        break;
+
+        case 0x93:
+        // Illegal
+        SHA(readAdrIndY());
         break;
 
         case 0x94:
@@ -463,6 +788,11 @@ void runInstruction(void) {
         STX(readAdrZPY());
         break;
 
+        case 0x97:
+        // Illegal
+        SAX(readAdrZPY());
+        break;
+
         case 0x98:
         TYA();
         break;
@@ -475,8 +805,28 @@ void runInstruction(void) {
         TXS();
         break;
 
+        case 0x9b:
+        // Illegal
+        TAS(readAdrAbsY());
+        break;
+
+        case 0x9c:
+        // Illegal
+        SHY(readAdrAbsX());
+        break;
+
         case 0x9d:
         STA(readAdrAbsX());
+        break;
+
+        case 0x9e:
+        // Illegal
+        SHX(readAdrAbsY());
+        break;
+
+        case 0x9f:
+        // Illegal
+        SHA(readAdrAbsY());
         break;
 
         case 0xa0:
@@ -491,6 +841,11 @@ void runInstruction(void) {
         LDX(readAdrImmediate());
         break;
 
+        case 0xa3:
+        // Illegal
+        LAX(readAdrIndX());
+        break;
+
         case 0xa4:
         LDY(readAdrZP());
         break;
@@ -501,6 +856,11 @@ void runInstruction(void) {
 
         case 0xa6:
         LDX(readAdrZP());
+        break;
+
+        case 0xa7:
+        // Illegal
+        LAX(readAdrZP());
         break;
 
         case 0xa8:
@@ -515,6 +875,11 @@ void runInstruction(void) {
         TAX();
         break;
 
+        case 0xab:
+        // Illegal
+        LXA(readAdrImmediate());
+        break;
+
         case 0xac:
         LDY(readAdrAbs());
         break;
@@ -527,12 +892,27 @@ void runInstruction(void) {
         LDX(readAdrAbs());
         break;
 
+        case 0xaf:
+        // Illegal
+        LAX(readAdrAbs());
+        break;
+
         case 0xb0:
         BCS(readAdrRel());
         break;
 
         case 0xb1:
         LDA(readAdrIndY());
+        break;
+
+        case 0xb2:
+        // Illegal
+        JAM();
+        break;
+
+        case 0xb3:
+        // Illegal
+        LAX(readAdrIndY());
         break;
 
         case 0xb4:
@@ -547,6 +927,11 @@ void runInstruction(void) {
         LDX(readAdrZPY());
         break;
 
+        case 0xb7:
+        // Illegal
+        LAX(readAdrZPY());
+        break;
+
         case 0xb8:
         CLV();
         break;
@@ -557,6 +942,11 @@ void runInstruction(void) {
 
         case 0xba:
         TSX();
+        break;
+
+        case 0xbb:
+        // Illegal
+        LAS(readAdrAbsY());
         break;
 
         case 0xbc:
@@ -571,12 +961,27 @@ void runInstruction(void) {
         LDX(readAdrAbsY());
         break;
 
+        case 0xbf:
+        // Illegal
+        LAX(readAdrAbsY());
+        break;
+
         case 0xc0:
         CPY(readAdrImmediate());
         break;
 
         case 0xc1:
         CMP(readAdrIndX());
+        break;
+
+        case 0xc2:
+        // Illegal
+        NOP(2);
+        break;
+
+        case 0xc3:
+        // Illegal
+        DCP(readAdrIndX());
         break;
 
         case 0xc4:
@@ -591,6 +996,11 @@ void runInstruction(void) {
         DEC(readAdrZP());
         break;
 
+        case 0xc7:
+        // Illegal
+        DCP(readAdrZP());
+        break;
+
         case 0xc8:
         INY();
         break;
@@ -601,6 +1011,11 @@ void runInstruction(void) {
 
         case 0xca:
         DEX();
+        break;
+
+        case 0xcb:
+        // Illegal
+        SBX(readAdrImmediate());
         break;
 
         case 0xcc:
@@ -615,12 +1030,32 @@ void runInstruction(void) {
         DEC(readAdrAbs());
         break;
 
+        case 0xcf:
+        // Illegal
+        DCP(readAdrAbs());
+        break;
+
         case 0xd0:
         BNE(readAdrRel());
         break;
 
         case 0xd1:
         CMP(readAdrIndY());
+        break;
+
+        case 0xd2:
+        // Illegal
+        JAM();
+        break;
+
+        case 0xd3:
+        // Illegal
+        DCP(readAdrIndY());
+        break;
+
+        case 0xd4:
+        // Illegal
+        NOP(2);
         break;
 
         case 0xd5:
@@ -631,12 +1066,32 @@ void runInstruction(void) {
         DEC(readAdrZPX());
         break;
 
+        case 0xd7:
+        // Illegal
+        DCP(readAdrZPX());
+        break;
+
         case 0xd8:
         CLD();
         break;
 
         case 0xd9:
         CMP(readAdrAbsY());
+        break;
+
+        case 0xda:
+        // Illegal
+        NOP(1);
+        break;
+
+        case 0xdb:
+        // Illegal
+        DCP(readAdrAbsY());
+        break;
+
+        case 0xdc:
+        // Illegal
+        NOP(3);
         break;
 
         case 0xdd:
@@ -647,12 +1102,27 @@ void runInstruction(void) {
         DEC(readAdrAbsX());
         break;
 
+        case 0xdf:
+        // Illegal
+        DCP(readAdrAbsX());
+        break;
+
         case 0xe0:
         CPX(readAdrImmediate());
         break;
 
         case 0xe1:
         SBC(readAdrIndX());
+        break;
+
+        case 0xe2:
+        // Illegal
+        NOP(2);
+        break;
+
+        case 0xe3:
+        // Illegal
+        ISC(readAdrIndX());
         break;
 
         case 0xe4:
@@ -667,6 +1137,11 @@ void runInstruction(void) {
         INC(readAdrZP());
         break;
 
+        case 0xe7:
+        // Illegal
+        ISC(readAdrZP());
+        break;
+
         case 0xe8:
         INX();
         break;
@@ -676,7 +1151,12 @@ void runInstruction(void) {
         break;
 
         case 0xea:
-        NOP();
+        NOP(1);
+        break;
+
+        case 0xeb:
+        // Illegal
+        SBC(readAdrImmediate());
         break;
 
         case 0xec:
@@ -691,12 +1171,32 @@ void runInstruction(void) {
         INC(readAdrAbs());
         break;
 
+        case 0xef:
+        // Illegal
+        ISC(readAdrAbs());
+        break;
+
         case 0xf0:
         BEQ(readAdrRel());
         break;
 
         case 0xf1:
         SBC(readAdrIndY());
+        break;
+
+        case 0xf2:
+        // Illegal
+        JAM();
+        break;
+
+        case 0xf3:
+        // Illegal
+        ISC(readAdrIndY());
+        break;
+
+        case 0xf4:
+        // Illegal
+        NOP(2);
         break;
 
         case 0xf5:
@@ -707,12 +1207,32 @@ void runInstruction(void) {
         INC(readAdrZPX());
         break;
 
+        case 0xf7:
+        // Illegal
+        ISC(readAdrZPX());
+        break;
+
         case 0xf8:
         SED();
         break;
 
         case 0xf9:
         SBC(readAdrAbsY());
+        break;
+
+        case 0xfa:
+        // Illegal
+        NOP(1);
+        break;
+
+        case 0xfb:
+        // Illegal
+        ISC(readAdrAbsY());
+        break;
+
+        case 0xfc:
+        // Illegal
+        NOP(3);
         break;
 
         case 0xfd:
@@ -723,9 +1243,11 @@ void runInstruction(void) {
         INC(readAdrAbsX());
         break;
 
-        default:
-        printf("Invalid opcode at 0x%.4x: 0x%.2x\n", PC, mem[PC]);
-        glfwTerminate();
-        exit(1);
+        case 0xff:
+        // Illegal
+        ISC(readAdrAbsX());
+        break;
+
+        // All possible opcodes covered, don't need default statement
     }
 }

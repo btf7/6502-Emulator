@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
+#include <pthread.h>
 #include "instructions.h"
 #include "emulate.h"
 #include "display.h"
@@ -343,8 +344,8 @@ void LSRA(void) {
     PC++;
 }
 
-void NOP(void) {
-    PC++;
+void NOP(uint8_t bytes) {
+    PC += bytes; // Illegal versions might not be 1 byte
     return;
 }
 
@@ -525,4 +526,157 @@ void TYA(void) {
     setZeroFlag(AC);
     setNegativeFlag(AC);
     PC++;
+}
+
+// Illegal instructions
+
+void ALR(uint16_t pointer) {
+    uint8_t val = AC * mem[pointer];
+    carryFlag = val & 1;
+    val >>= 1;
+    setZeroFlag(val);
+    setNegativeFlag(val);
+    PC++;
+}
+
+void ANC(uint16_t pointer) {
+    const uint8_t val = AC & mem[pointer];
+    carryFlag = val & 0x80;
+    setZeroFlag(val);
+    setNegativeFlag(val);
+    PC++;
+}
+
+void ANE(uint16_t pointer) {
+    // The 0xff is (AC | random value) where the random value is recommended to be 0xff
+    // In the real chip, the value changes based on chip series, temperature, etc.
+    AC = 0xff & X & mem[pointer];
+    setZeroFlag(AC);
+    setNegativeFlag(AC);
+    PC++;
+}
+
+void ARR(uint16_t pointer) {
+    const uint8_t oldAC = AC;
+    const bool oldCarry = carryFlag;
+    AC &= mem[pointer];
+    ADC(pointer); // To set overflow flag
+    ROR(pointer);
+    AC = oldAC;
+    mem[pointer] |= oldCarry << 7;
+    PC--;
+}
+
+void DCP(uint16_t pointer) {
+    mem[pointer] -= 1;
+    CMP(pointer);
+}
+
+void ISC(uint16_t pointer) {
+    mem[pointer]++;
+    SBC(pointer);
+}
+
+void JAM(void) {
+    printf("\nHit illegal JAM instruction %.2x at %.4x\n", mem[PC], PC);
+    glFinish(); // Flush any drawings that haven't been drawn yet
+    pthread_exit(NULL);
+}
+
+void LAS(uint16_t pointer) {
+    AC = mem[pointer] & SP;
+    X = AC;
+    SP = AC;
+    setZeroFlag(AC);
+    setNegativeFlag(AC);
+    PC++;
+}
+
+void LAX(uint16_t pointer) {
+    LDA(pointer);
+    X = AC;
+}
+
+void LXA(uint16_t pointer) {
+    // The 0xff is (AC | random value) where the random value is recommended to be 0xff
+    // In the real chip, the value changes based on chip series, temperature, etc.
+    AC = 0xff & mem[pointer];
+    X = AC;
+    setZeroFlag(AC);
+    setNegativeFlag(AC);
+    PC++;
+}
+
+void RLA(uint16_t pointer) {
+    const uint8_t oldVal = mem[pointer];
+    ROL(pointer);
+    AC &= oldVal;
+    setZeroFlag(AC);
+    setNegativeFlag(AC);
+}
+
+void RRA(uint16_t pointer) {
+    const uint8_t oldVal = mem[pointer];
+    ROR(pointer);
+    const uint8_t newVal = mem[pointer];
+    mem[pointer] = oldVal;
+    ADC(pointer);
+    mem[pointer] = newVal;
+    PC--;
+}
+
+void SAX(uint16_t pointer) {
+    mem[pointer] = AC & X;
+    PC++;
+}
+
+void SBX(uint16_t pointer) {
+    X = AC & X;
+    carryFlag = X >= mem[pointer];
+    zeroFlag = X == mem[pointer];
+    X -= mem[pointer];
+    setNegativeFlag(X);
+    PC++;
+}
+
+void SHA(uint16_t pointer) {
+    // The (& mem[pointer + 1]) may be dropped, or not cross page boundaries
+    // This behaviour is not emulated
+    mem[pointer] = AC & X & mem[(pointer + 1) & 0xffff];
+    PC++;
+}
+
+void SHX(uint16_t pointer) {
+    // The (& mem[pointer + 1]) may be dropped, or not cross page boundaries
+    // This behaviour is not emulated
+    mem[pointer] = X & mem[(pointer + 1) & 0xffff];
+    PC++;
+}
+
+void SHY(uint16_t pointer) {
+    // The (& mem[pointer + 1]) may be dropped, or not cross page boundaries
+    // This behaviour is not emulated
+    mem[pointer] = Y & mem[(pointer + 1) & 0xffff];
+    PC++;
+}
+
+void SLO(uint16_t pointer) {
+    const uint8_t oldVal = mem[pointer];
+    ASL(pointer);
+    AC |= oldVal;
+    setZeroFlag(AC);
+    setNegativeFlag(AC);
+}
+
+void SRE(uint16_t pointer) {
+    const uint8_t oldVal = mem[pointer];
+    LSR(pointer);
+    AC ^= oldVal;
+    setZeroFlag(AC);
+    setNegativeFlag(AC);
+}
+
+void TAS(uint16_t pointer) {
+    SP = AC & X;
+    SHA(pointer);
 }
