@@ -1,17 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
 #include <pthread.h>
-
-#ifdef _WIN32
-#include <Windows.h>
-#elif defined(__unix__)
-#include <unistd.h>
-#else
-#error "_WIN32 or __unix__ must be defined"
-#endif
-
 #include "emulate.h"
 #include "display.h"
 #include "instructions.h"
@@ -32,24 +24,7 @@ static void keyCallback(GLFWwindow* callbackWindow, int key, int scancode, int a
 static void* emulate(void* args) {
     (void)args;
 
-    glfwMakeContextCurrent(window);
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    double prevDrawTime = glfwGetTime();
-    glFinish(); // Flush the glClear() - Is this necessary?
-
-    while (!glfwWindowShouldClose(window)) {
-        runInstruction();
-
-        const double nowTime = glfwGetTime();
-        if (nowTime - prevDrawTime > 0.001) {
-            prevDrawTime = nowTime;
-            if (drawQueued) {
-                glFinish();
-                drawQueued = false;
-            }
-        }
-    }
+    while (!glfwWindowShouldClose(window)) runInstruction();
 
     return NULL;
 }
@@ -67,8 +42,8 @@ int main(int argc, char** argv) {
     initDisplay();
     glfwSetKeyCallback(window, keyCallback);
 
-    // The main thread does not handle rendering
-    glfwMakeContextCurrent(NULL);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glfwSwapBuffers(window);
 
     // Windows freezes the main thread when the window is grabbed
     // Run the emulation on another thread to circumvent this
@@ -76,12 +51,18 @@ int main(int argc, char** argv) {
     pthread_create(&emulateThread, NULL, &emulate, NULL);
 
     while (!glfwWindowShouldClose(window)) {
-        #ifdef _WIN32
-        Sleep(10);
-        #else
-        usleep(10000);
-        #endif
-        glfwPollEvents(); // This must be called from the main thread
+        // Render screen
+
+        for (uint16_t i = 0xe000; i < 0xf000; i++) {
+            const uint8_t byte = mem[i];
+            glUniform4f(colourUniform, (float)((byte & 0xe0) >> 5) / 7.0f, (float)((byte & 0x1c) >> 2) / 7.0f, (float)(byte & 0x03) / 3.0f, 1.0f);
+            glUniform2f(positionUniform, (float)((i - 0xe000) & 0x3f), (float)((i - 0xe000) >> 6));
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
+        }
+
+        glfwSwapBuffers(window);
+
+        glfwPollEvents();
     }
 
     pthread_join(emulateThread, NULL);

@@ -15,7 +15,5 @@ extern bool interruptFlag;
 extern bool zeroFlag;
 extern bool carryFlag;
 
-extern bool drawQueued;
-
 void readFile(const char* fileName);
 void runInstruction(void);

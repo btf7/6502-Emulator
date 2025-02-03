@@ -93,8 +93,7 @@ void initDisplay(void) {
     glfwWindowHint(GLFW_BLUE_BITS, 2);
     glfwWindowHint(GLFW_ALPHA_BITS, 0);
 
-    // The display updates real-time(ish), don't bother with frame timings, just draw straight to the buffer
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
     window = glfwCreateWindow(640, 640, "6502 Emulator", NULL, NULL);
     if (!window) {
@@ -104,6 +103,7 @@ void initDisplay(void) {
     }
 
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
 
     if (glewInit() != GLEW_OK){
         printf("Failed to initialise GLEW\n");

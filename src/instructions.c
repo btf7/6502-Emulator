@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
 #include <pthread.h>
 #include "instructions.h"
@@ -56,15 +55,7 @@ static void writeByte(const uint16_t pointer, const uint8_t byte) {
         putchar(byte);
     } else if (pointer == 0xfffb) {
         const double endTime = glfwGetTime() + ((double)byte) / 1000.0;
-        // Flush drawings since there's a delay anyway
-        glFinish();
-        drawQueued = false;
         while (!glfwWindowShouldClose(window) && glfwGetTime() < endTime) {}
-    } else if (pointer >= 0xe000 && pointer <= 0xefff) {
-        glUniform4f(colourUniform, (float)((byte & 0xe0) >> 5) / 7.0f, (float)((byte & 0x1c) >> 2) / 7.0f, (float)(byte & 0x03) / 3.0f, 1.0f);
-        glUniform2f(positionUniform, (float)((pointer - 0xe000) & 0x3f), (float)((pointer - 0xe000) >> 6));
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
-        drawQueued = true;
     }
 
     mem[pointer] = byte;

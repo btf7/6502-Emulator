@@ -57,8 +57,7 @@ The screen is rendered in horizontal rows starting from the top-left at 0xE000.
 
 Each pixel is 1 byte, storing colour information as RRRGGGBB.
 
-Whenever any address from 0xE000 - 0xEFFF is written to or modified,
-the display will immediately reflect the change.
+The display updates with VSync to always reflect the data stored from 0xE000 - 0xEFFF
 
 ## Keyboard Input
 
@@ -85,7 +84,6 @@ and the emulator will sleep for that number of milliseconds.
 
 ## TODO
 
-- Render at native framerate (vsync) instead of at 10ms intervals
 - Instead of having delay output, measure cycle counts and run at a set speed to more accurately model the processor
 - Add debug GUI - pause button, assembly view, registers & flags viewer etc.
 - Test illegal opcodes

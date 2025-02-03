@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <GLFW/glfw3.h>
 #include <pthread.h>
 #include "emulate.h"
 #include "instructions.h"
@@ -22,8 +21,6 @@ bool decimalFlag = false;
 bool interruptFlag = false;
 bool zeroFlag = false;
 bool carryFlag = false;
-
-bool drawQueued = false;
 
 // Functions for getting the value's address in different addressing modes
 // These should also increment PC by the number of bytes they read
@@ -113,7 +110,6 @@ void readFile(const char * const fileName) {
 void runInstruction(void) {
     if (PC == prevPC){
         printf("\nInfinite loop at 0x%.4x\n", PC);
-        glFinish(); // Flush any drawings that haven't been drawn yet
         pthread_exit(NULL);
     }
     prevPC = PC;
